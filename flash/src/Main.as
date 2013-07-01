@@ -181,7 +181,6 @@ package
 			loader.addEventListener(ProgressEvent.PROGRESS, upload_progress);
 
 			var header:URLRequestHeader = new URLRequestHeader("Content-type", "application/octet-stream");
-			//var request:URLRequest = new URLRequest(ModelLocator.BASE_URL + ModelLocator.UPLOAD_URL + "?user=" + ModelLocator.getInstance().username);
 			request.requestHeaders.push(header);
 			request.method = URLRequestMethod.POST;
 			request.data = _baFlvEncoder.byteArray;
@@ -229,10 +228,7 @@ package
 		{
 			_fr = new FileReference();
 			
-			//_fr.addEventListener(Event.SELECT, file_selected);	
-			//_fr.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA, file_uploadComplete);
 			_fr.addEventListener(IOErrorEvent.IO_ERROR, file_IOError);
-			//_fr.addEventListener(Event.COMPLETE, file_complete);
 			
 			_picFr = new FileReference();
 			_picFr.addEventListener(Event.SELECT, picFile_selected);
@@ -258,9 +254,6 @@ package
 			_btnSprite.mouseChildren = true;
 		}
 		
-		 
-		
-		
 		/*** params ***/
 		//private const HTTP_PATH:String = "http://192.168.2.71/uflv/";
 		private const HTTP_PATH:String = "";
@@ -268,7 +261,6 @@ package
 		private static const FLV_FRAMERATE:int = 30;
 		private static const OUTPUT_WIDTH:int = 320;
 		private static const OUTPUT_HEIGHT:int = 200;
-		
 		
 		private var _fr:FileReference;
 		private var _picFr:FileReference;
@@ -284,5 +276,4 @@ package
 		
 		private var _pendingIcon:PendingIcon;
 	}
-
 }
