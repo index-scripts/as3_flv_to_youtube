@@ -55,10 +55,10 @@ if ($im)
 	
 	$myVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
 	
-	$myVideoEntry->setMediaSource($filesource);
 	$filesource = $yt->newMediaFileSource($filename);
 	$filesource->setContentType('video/x-flv');
 	$filesource->setSlug('resultx.flv');
+	$myVideoEntry->setMediaSource($filesource);
 	
 	$myVideoEntry->setVideoTitle('My Test Movie');
 	$myVideoEntry->setVideoDescription('My Test Movie');

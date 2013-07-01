@@ -12,6 +12,7 @@ package
 	import flash.events.MouseEvent;
 	import flash.events.ProgressEvent;
 	import flash.events.SecurityErrorEvent;
+	import flash.media.Sound;
 	import flash.net.FileFilter;
 	import flash.net.FileReference;
 	import flash.net.URLLoader;
@@ -21,7 +22,9 @@ package
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	import flash.ui.Mouse;
+	import flash.utils.ByteArray;
 	import leelib.util.flvEncoder.ByteArrayFlvEncoder;
+	import leelib.util.flvEncoder.FlvEncoder;
 	import res.PendingIcon;
 	import sav.components.dialog_v2.Dialog;
 	import sav.ui.MyButton;
@@ -75,6 +78,8 @@ package
 			
 			buildFileReference();
 			
+			_sound = new Soundtrack();
+			
 			trace('init');
 		}
 		
@@ -83,9 +88,16 @@ package
 		{		
 			disableButtons();
 			
+			
+			_baAudio = new ByteArray();
+			var seconds:Number = REF.scene.sceneClip.totalFrames / FLV_FRAMERATE;
+			_sound.extract(_baAudio, seconds * 44000 + 1000); 
+			
 			_baFlvEncoder = new ByteArrayFlvEncoder(FLV_FRAMERATE);
 			_baFlvEncoder.setVideoProperties(OUTPUT_WIDTH, OUTPUT_HEIGHT);
+			_baFlvEncoder.setAudioProperties(FlvEncoder.SAMPLERATE_44KHZ, true,true, true);
 			_baFlvEncoder.start();
+			
 
 			REF.scene.sceneClip.gotoAndStop(1);
 			capcureOneFrame();
@@ -95,15 +107,20 @@ package
 		
 		private function capcureOneFrame():void
 		{
+			var audioChunk:ByteArray = new ByteArray();
+			audioChunk.writeBytes(_baAudio, (REF.scene.sceneClip.currentFrame-1) * _baFlvEncoder.audioFrameSize, _baFlvEncoder.audioFrameSize);
+			
 			var bitmapData:BitmapData = new BitmapData(320, 200);
 			bitmapData.draw(REF.scene.sceneClip);
-			_baFlvEncoder.addFrame(bitmapData, null);
+			//_baFlvEncoder.addFrame(bitmapData, null);
+			_baFlvEncoder.addFrame(bitmapData, audioChunk);
 		}
 		
 		private function captureVideo_exec():void
 		{
 			if (REF.scene.sceneClip.totalFrames == REF.scene.sceneClip.currentFrame)
 			{
+				//_sound.close();
 				trace('capture complete');
 				_baFlvEncoder.updateDurationMetadata();
 				
@@ -202,7 +219,7 @@ package
 			
 			if (!loader.data)
 			{
-				Dialog.quickAlert("Upload fail, didn't recived data from servr");
+				Dialog.quickAlert("Upload timeout.");
 				return;
 			}
 			
@@ -216,7 +233,7 @@ package
 			{
 				var videoId:String = variables.res;
 				var videoUrl:String = "http://www.youtube.com/watch?v=" + videoId;
-				Dialog.quickAlert("<p align='center'>Upload complete, new video ID is <br><br><a href='"+videoUrl+"'>"+videoId+"</a></p>");
+				Dialog.quickAlert("<p align='center'>Upload complete, new video link is <br><br><font color='#0075EA'><a href='"+videoUrl+"'>"+videoUrl+"</a></font></p>");
 			}
 			else
 			{
@@ -255,7 +272,7 @@ package
 		}
 		
 		/*** params ***/
-		//private const HTTP_PATH:String = "http://192.168.2.71/uflv/";
+		//private const HTTP_PATH:String = "http://192.168.2.71/lab/uflv/";
 		private const HTTP_PATH:String = "";
 		
 		private static const FLV_FRAMERATE:int = 30;
@@ -274,6 +291,12 @@ package
 		
 		private var _btnSprite:Sprite;
 		
+		private var _baAudio:ByteArray;
+		private var _sound:Sound;
+		
 		private var _pendingIcon:PendingIcon;
+		
+		[Embed(source = "../res/hello.mp3")]
+		private var Soundtrack:Class;
 	}
 }
