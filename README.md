@@ -14,8 +14,21 @@ in this part we use IBitmapDrawable.draw method capture BitmapData from swf fram
 
 ####  swf send FLV to php
 sending binary data to server is bit different of sending text, in the UrlRequest instance, we need assign different content-type("application/octet-stream") in request header, the sending method need to be "POST", and assign our video ByteArray in data params.
-
-you can open [Main.as](https://github.com/index-scripts/as3_flv_to_youtube/blob/master/flash/src/Main.as) see how part1 and part2 processed.
+here are snippets from [Main.as](https://github.com/index-scripts/as3_flv_to_youtube/blob/master/flash/src/Main.as)
+```as3
+var request:URLRequest = new URLRequest(HTTP_PATH + "php/server_upload_video.php");
+  		
+var loader:URLLoader = new URLLoader();
+loader.addEventListener(Event.COMPLETE, upload_Complete);
+loader.addEventListener(IOErrorEvent.IO_ERROR, file_IOError);
+loader.addEventListener(ProgressEvent.PROGRESS, upload_progress);
+    
+var header:URLRequestHeader = new URLRequestHeader("Content-type", "application/octet-stream");
+request.requestHeaders.push(header);
+request.method = URLRequestMethod.POST;
+request.data = _baFlvEncoder.byteArray;
+loader.load(request);
+```
 
 ####  php client login youtube and upload video
 for uploading a video, you need prepare something:
