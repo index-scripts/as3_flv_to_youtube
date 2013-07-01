@@ -8,6 +8,7 @@ the process are splited into three parts:
   * server use ClientLogin tech login youtube and then upload FLV to server.
  
 ####  generate FLV in swf
+for this and next step, look at [Main.as](https://github.com/index-scripts/as3_flv_to_youtube/blob/master/flash/src/Main.as) see how these parts be processed.
 we use [zeropointnine's FlvEncoder](https://github.com/zeropointnine/leelib) help us generate FLV, source code licensed under a [Creative Commons Attribution 3.0 License.](http://creativecommons.org/licenses/by/3.0/) Some Rights Reserved.
 
 in this part we use IBitmapDrawable.draw method capture BitmapData from swf frame by frame, send them to FlvEncoder instance, in the end we will get a ByteArray which contains the video data, we will send it to server in step 2.
