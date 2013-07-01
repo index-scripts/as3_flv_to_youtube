@@ -13,4 +13,13 @@ the process are splited into three parts:
 
 ####  php client login youtube and upload video
 
+php file [server_upload_video.php](https://github.com/index-scripts/as3_flv_to_youtube/blob/master/php/server_upload_video.php) process this step.
+
+for uploading a video, you need prepare something:
+
+* create a google account.
+* use your google account login youtube and create at least one channel.
+* generate a developerkey in [here](http://code.google.com/apis/youtube/dashboard/).
+
+for more detail please read [here](https://developers.google.com/youtube/2.0/developers_guide_protocol_direct_uploading?hl=de#Direct_uploading)
   
