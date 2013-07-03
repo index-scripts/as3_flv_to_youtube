@@ -25,6 +25,7 @@ package
 	import flash.utils.ByteArray;
 	import leelib.util.flvEncoder.ByteArrayFlvEncoder;
 	import leelib.util.flvEncoder.FlvEncoder;
+	import leelib.util.flvEncoder.VideoPayloadMakerAlchemy;
 	import res.PendingIcon;
 	import sav.components.dialog_v2.Dialog;
 	import sav.ui.MyButton;
@@ -94,6 +95,7 @@ package
 			_sound.extract(_baAudio, seconds * 44000 + 1000); 
 			
 			_baFlvEncoder = new ByteArrayFlvEncoder(FLV_FRAMERATE);
+			//_baFlvEncoder.setVideoProperties(OUTPUT_WIDTH, OUTPUT_HEIGHT,VideoPayloadMakerAlchemy);
 			_baFlvEncoder.setVideoProperties(OUTPUT_WIDTH, OUTPUT_HEIGHT);
 			_baFlvEncoder.setAudioProperties(FlvEncoder.SAMPLERATE_44KHZ, true,true, true);
 			_baFlvEncoder.start();
@@ -123,6 +125,10 @@ package
 				//_sound.close();
 				trace('capture complete');
 				_baFlvEncoder.updateDurationMetadata();
+				
+				//trace("_ba length = " + _baFlvEncoder.byteArray.length);
+				//_baFlvEncoder.byteArray.compress();
+				//trace("_ba length(compressed) = " + _baFlvEncoder.byteArray.length);
 				
 				enableButtons();
 				

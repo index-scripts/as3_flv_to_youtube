@@ -53,6 +53,7 @@
   <libraryPaths>
     <element path="lib\FlaResources.swc" />
     <element path="lib\tweener.swc" />
+    <element path="lib\flvEncodeHelper.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
